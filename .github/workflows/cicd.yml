@@ -30,6 +30,10 @@ jobs:
         run: |
           ls -a
 
+      - name: Invalid command
+        run: |
+          mkfolder         
+
   #      pip install -r requirements.txt
   #      python -m pip install flake8
 
