@@ -23,7 +23,9 @@ jobs:
 
       - name: Print message
         run: |
-          echo "Terry is the best professor"
+          echo ${{secrets.DOCKER_USERNAME}}
+          echo ${{secrets.DOCKER_PASSWORD}}
+          echo ${{vars.TEST}}
 
       - name: List files
         run: |
@@ -35,13 +37,13 @@ jobs:
           pip install -r requirements.txt
           python -m pip install flake8
 
-  #      pip install -r requirements.txt
-  #      python -m pip install flake8
+      #      pip install -r requirements.txt
+      #      python -m pip install flake8
 
-  #   - name: Lint Check
-  #     run: |
-  #      flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-  #      flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Lint Check
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
   # deploy:
   #   runs-on: ubuntu-latest
