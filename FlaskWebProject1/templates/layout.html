@@ -1,47 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - My Flask Application</title>
-    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
-    <script src="/static/scripts/modernizr-2.6.2.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }} · Bilal RAHAOUI</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #0f172a;
+            --card: #1f2a44;
+            --text: #f8fafc;
+            --accent: #38bdf8;
+        }
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top, #1d4ed8 0%, #0f172a 60%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            padding: 2rem clamp(1.5rem, 5vw, 4rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            font-size: clamp(1.25rem, 2.5vw, 2rem);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            position: relative;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s ease;
+        }
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+        main {
+            flex: 1;
+            padding: 0 clamp(1.5rem, 6vw, 6rem) 3rem;
+        }
+        .card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 1.5rem;
+            padding: clamp(1.5rem, 4vw, 3rem);
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(12px);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(248, 250, 252, 0.7);
+            font-size: 0.95rem;
+        }
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav a {
+                margin: 0 0.75rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">Application name</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('about') }}">About</a></li>
-                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
-        {% block content %}{% endblock %}
-        <hr />
-        <footer>
-            <p>&copy; {{ year }} - My Flask Application</p>
-        </footer>
-    </div>
-
-    <script src="/static/scripts/jquery-1.10.2.js"></script>
-    <script src="/static/scripts/bootstrap.js"></script>
-    <script src="/static/scripts/respond.js"></script>
-    {% block scripts %}{% endblock %}
-
+    <header>
+        <div class="brand">Bilal RAHAOUI</div>
+        <nav>
+            <a href="{{ url_for('home') }}" class="{% if request.path == '/' or request.path == '/home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">About</a>
+            <a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <section class="card">
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+    <footer>
+        Crafted with focus · {{ year }} · Bilal RAHAOUI
+    </footer>
 </body>
 </html>
