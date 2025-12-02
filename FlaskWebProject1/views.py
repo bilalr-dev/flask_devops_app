@@ -70,3 +70,8 @@ def cache_test():
         return f"Redis Connected - Visit Count: {count}"
     except Exception as e:
         return f"Redis Error: {str(e)}"
+
+
+@app.route('/getinfo')
+def get_info():
+    return "Igor Feshchenko"
