@@ -110,7 +110,7 @@
         Crafted with focus · {{ year }} · Bilal RAHAOUI
     </footer>
     <script>
-        // Fireworks Animation
+        // Fireworks Animation (limited to ~3 seconds)
         (function() {
             const canvas = document.getElementById('fireworks-canvas');
             const ctx = canvas.getContext('2d');
@@ -123,6 +123,7 @@
             });
             
             const particles = [];
+            let running = true;
             const colors = ['#38bdf8', '#5eead4', '#fbbf24', '#f87171', '#a78bfa', '#fb7185'];
             
             class Particle {
@@ -162,6 +163,12 @@
             }
             
             function animate() {
+                if (!running) {
+                    // Clear once and stop drawing
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    canvas.style.display = 'none';
+                    return;
+                }
                 ctx.fillStyle = 'rgba(15, 23, 42, 0.1)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
@@ -177,7 +184,7 @@
                 requestAnimationFrame(animate);
             }
             
-            // Create fireworks on page load and periodically
+            // Create fireworks on page load and periodically (first 1.5s)
             setTimeout(() => {
                 createFirework(canvas.width / 2, canvas.height / 2);
             }, 500);
@@ -190,10 +197,18 @@
                 createFirework(canvas.width * 0.7, canvas.height * 0.6);
             }, 1500);
             
-            // Create fireworks on click
-            document.addEventListener('click', (e) => {
+            // Create fireworks on click (only while running)
+            const clickHandler = (e) => {
+                if (!running) return;
                 createFirework(e.clientX, e.clientY);
-            });
+            };
+            document.addEventListener('click', clickHandler);
+            
+            // Stop fireworks after ~3 seconds
+            setTimeout(() => {
+                running = false;
+                document.removeEventListener('click', clickHandler);
+            }, 3000);
             
             animate();
         })();
